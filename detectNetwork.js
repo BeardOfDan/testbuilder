@@ -29,7 +29,7 @@ var detectNetwork = function (cardNumber) {
       if (prefix.charAt(0) === "4") {
         return "Visa";
       } else {
-        prefixNum = new Number(prefix);
+        const prefixNum = new Number(prefix);
         if ((prefixNum < 56) && (prefixNum > 50)) {
           return "MasterCard";
         }
@@ -59,7 +59,7 @@ let values = suppliedTestString.split("\n");
 // Since the instructions only state to work in this file 
 // (and the console), instead of doing anything in the .test.js file (yet),
 // I am doing some basic testing this way
-pseudoTests = function () {
+const pseudoTests = function () {
   let passes = 0;
   let failures = 0;
 
