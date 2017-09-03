@@ -1,19 +1,6 @@
-// Given a credit card number, this function should return a string with the 
-// name of a network, like 'MasterCard' or 'American Express'
-// Example: detectNetwork('343456789012345') should return 'American Express'
-
-// How can you tell one card network from another? Easy! 
-// There are two indicators:
-//   1. The first few numbers (called the prefix)
-//   2. The number of digits in the number (called the length)
+"use strict";
 
 var detectNetwork = function(cardNumber) {
-    // Note: `cardNumber` will always be a string
-    // The Diner's Club network always starts with a 38 or 39 and is 14 digits long
-    // The American Express network always starts with a 34 or 37 and is 15 digits long
-
-    // Once you've read this, go ahead and try to implement this function, then return to the console.
-
     // shorter to type
     const length = cardNumber.length;
     const prefix = cardNumber.slice(0, 2);
@@ -52,8 +39,8 @@ var detectNetwork = function(cardNumber) {
 
 };
 
-// the tests given in the console are all of a certain format
-// so I will make a function that will convert them into an easily usable format
+// The tests given in the console are all of a certain format
+// so I will make a function that will convert them into an array
 let suppliedTestString = `38345678901234 (Diner's Club)
 39345678901234 (Diner's Club)
 343456789012345 (American Express)
@@ -69,8 +56,9 @@ let suppliedTestString = `38345678901234 (Diner's Club)
 
 let values = suppliedTestString.split("\n");
 
-// since the instructions only state to work in this file, instead of doing anything
-// in the .test.js file, I am doing some basic testing this way
+// Since the instructions only state to work in this file 
+// (and the console), instead of doing anything in the .test.js file (yet),
+// I am doing some basic testing this way
 pseudoTests = function() {
     let passes = 0;
     let failures = 0;
