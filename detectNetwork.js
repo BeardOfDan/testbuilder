@@ -52,6 +52,10 @@ var detectNetwork = function (cardNumber) {
 
   // gets set to the value of the card's name below
   let result;
+
+  // for handling any 'apparent conflict' due to overlap
+  let oldPrefixLength;
+
   // go through each card
   cards.forEach(function (card) {
     // for each length
@@ -63,17 +67,25 @@ var detectNetwork = function (cardNumber) {
         for (let i = 0; i < prefix.length; i++) {
           let thisPrefix = prefix[i];
 
+          // check if the card has this prefix
           if (cardNumber.slice(0, thisPrefix.length) === thisPrefix) {
-            // test here if result already has a value
-            // if so, test if the prefix for it is shorter than this one
-            // if so, then replace it with this card
-            result = card.name;
+            if (result) { // if there was already a match found
+              // check if the new match takes precedence
+              if (thisPrefix.length <= oldPrefixLength) {
+                // do nothing, as the old one has precedence                
+              } else { // the new match takes precedence
+                result = card.name;
+                oldPrefixLength = thisPrefix.length;
+              }
+            } else { // this is the first match for a Card Network
+              result = card.name;
+              oldPrefixLength = thisPrefix.length;
+            }
           }
         }
       }
     });
   });
 
-  return result ? result : "Card not found! " + cardNumber;
+  return result ? result : "Card Network not found! " + cardNumber;
 }; // end of detectNetwork(cardNumber)
-
