@@ -1,46 +1,68 @@
 "use strict";
 
 var detectNetwork = function (cardNumber) {
-  // shorter to type
-  const length = cardNumber.length;
-  const prefix = cardNumber.slice(0, 2);
+  let cards = [
+    {
+      "name": "Maestro",
+      "prefixes": [
+        "5018", "5020", "5038", "6304"
+      ],
+      "lengths": [12, 13, 14, 15, 16, 17, 18, 19]
+    },
+    {
+      "name": "Discover",
+      "prefixes": [
+        "6011", "644", "645", "646", "647", "648", "649", "65"
+      ],
+      "lengths": [16, 19]
+    }, {
+      "name": "Diner's Club",
+      "prefixes": [
+        "38", "39"
+      ],
+      "lengths": [14]
+    }, {
+      "name": "American Express",
+      "prefixes": [
+        "34", "37"
+      ],
+      "lengths": [15]
+    }, {
+      "name": "Visa",
+      "prefixes": [
+        "4"
+      ],
+      "lengths": [13, 16, 19]
+    }, {
+      "name": "MasterCard",
+      "prefixes": [
+        "51", "52", "53", "54", "55"
+      ],
+      "lengths": [16]
+    }
+  ];
 
-  switch (length) {
-    case 14:
-      if ((prefix === "38") || (prefix === "39")) {
-        return "Diner's Club";
-      }
-      break;
+  // gets set to the value of the card's name below
+  let result = "Card not found! " + cardNumber;
+  // go through each card
+  cards.forEach(function (card) {
+    // for each length
+    card.lengths.forEach(function (length) {
+      // check if cardNumber.length matches
+      if (cardNumber.length === length) {
+        // go through each prefix
+        let prefix = card.prefixes;
+        for (let i = 0; i < prefix.length; i++) {
+          let thisPrefix = prefix[i];
 
-    case 15:
-      if ((prefix === "34") || (prefix === "37")) {
-        return "American Express";
-      }
-      break;
-
-    case 13:
-    case 19:
-      if (prefix.charAt(0) === "4") {
-        return "Visa";
-      } else if (cardNumber.slice(0, 4) === "6011") {
-        return "Discover";
-      }
-      break;
-
-    case 16:
-      if (prefix.charAt(0) === "4") {
-        return "Visa";
-      } else if (cardNumber.slice(0, 4) === "6011") {
-        return "Discover";
-      } else {
-        const prefixNum = new Number(prefix);
-        if ((prefixNum < 56) && (prefixNum > 50)) {
-          return "MasterCard";
+          if (cardNumber.slice(0, thisPrefix.length) === thisPrefix) {
+            result = card.name;
+          }
         }
       }
-      break;
+    });
+  });
 
-    default:
-      return "Unhandled Card Number: " + cardNumber;
-  } // end of switch
+  return result;
 }; // end of detectNetwork(cardNumber)
+

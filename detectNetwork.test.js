@@ -96,16 +96,50 @@ describe('MasterCard', function () {
 describe('Discover', function () {
   const { expect } = chai;
 
-  // Tests without a function will be marked as "pending" and not run
-  // Implement these tests (and others) and make them pass!
-  it('has a prefix of 6011 and a length of 16', function () {
-    expect(detectNetwork('6011012345678901')).to.equal('Discover');
-  });
+  // // Tests without a function will be marked as "pending" and not run
+  // // Implement these tests (and others) and make them pass!
+  // it('has a prefix of 6011 and a length of 16', function () {
+  //   expect(detectNetwork('6011012345678901')).to.equal('Discover');
+  // });
 
-  it('has a prefix of 6011 and a length of 19', function () {
-    expect(detectNetwork("6011012345678901234")).to.equal('Discover');
-  });
-});
+  // it('has a prefix of 6011 and a length of 19', function () {
+  //   expect(detectNetwork("6011012345678901234")).to.equal('Discover');
+  // });
+
+  let prefixes = ["6011", "644", "645", "646", "647", "648", "649", "65"];
+  let lengths = [16, 19];
+
+  // Since there are 3 different prefix lengths and 2 different cardNumber lengths,
+  // I am making a dynamic approach to getting filler data for the rest of the cardNumber
+  const getRandomDigit = function () {
+    return ~~(Math.random() * 10);
+  };
+
+  const getSuffix = function (prefix, length) {
+    let suffix = "";
+    for (let i = prefix.length; i < length; i++) {
+      suffix += getRandomDigit();
+    }
+    return suffix;
+  };
+
+  // testing for each of the possible prefix and length combinations
+  for (let i = 0; i < prefixes.length; i++) {
+    for (let j = 0; j < lengths.length; j++) {
+      // the testing framework works asyncronously, therefore, and IIFE is required
+      (function () {
+        let thisPrefix = prefixes[i];
+        let thisLength = lengths[j];
+
+        it(`has a prefix of ${thisPrefix} and a length of ${thisLength}`, function () {
+          let thisCardNumber = thisPrefix + getSuffix(thisPrefix, thisLength);
+          expect(detectNetwork(thisCardNumber)).to.equal('Discover');
+        });
+      })();
+    }
+  }
+
+}); // end of describe('Discover'
 
 describe('Maestro', function () {
   // Write full test coverage for the Maestro card
