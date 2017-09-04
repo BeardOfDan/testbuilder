@@ -39,7 +39,7 @@ describe('Visa', function () {
   // Chai provides an assert that acts the same as our previous assert.
   // Search the documentation to figure out how to access it. 
   //   http://chaijs.com/
-  var assert = chai.FILL_ME_IN;
+  var assert = chai.assert;
 
 
   it('has a prefix of 4 and a length of 13', function () {
@@ -62,18 +62,17 @@ describe('MasterCard', function () {
   //   http://chaijs.com/api/bdd/
   var expect = chai.expect;
 
-  it(FILL_ME_IN, function () {
+  it("has a prefix of 51 and a length of 16", function () {
     expect(detectNetwork('5112345678901234')).to.equal('MasterCard');
   });
 
-  it(FILL_ME_IN, function () {
+  it("has a prefix of 52 and a length of 16", function () {
     expect(detectNetwork('5212345678901234')).to.equal('MasterCard');
   });
 
-  it(FILL_ME_IN, function () {
+  it("has a prefix of 53 and a length of 16", function () {
     expect(detectNetwork('5312345678901234')).to.equal('MasterCard');
   });
-
 
   // You can also use should instead of expect, which changes the style
   // slightly. It really doesn't matter which one you use - check out 
@@ -85,20 +84,27 @@ describe('MasterCard', function () {
   var should = chai.should();
 
   it('has a prefix of 54 and a length of 16', function () {
-    detectNetwork('5412345678901234').should.equal(FILL_ME_IN);
+    detectNetwork('5412345678901234').should.equal('MasterCard');
   });
 
   it('has a prefix of 55 and a length of 16', function () {
-    detectNetwork('5512345678901234').should.equal(FILL_ME_IN);
-  })
+    detectNetwork('5512345678901234').should.equal('MasterCard');
+  });
 
 });
 
 describe('Discover', function () {
+  const { expect } = chai;
+
   // Tests without a function will be marked as "pending" and not run
   // Implement these tests (and others) and make them pass!
-  it('has a prefix of 6011 and a length of 16');
-  it('has a prefix of 6011 and a length of 19');
+  it('has a prefix of 6011 and a length of 16', function () {
+    expect(detectNetwork('6011012345678901')).to.equal('Discover');
+  });
+
+  it('has a prefix of 6011 and a length of 19', function () {
+    expect(detectNetwork("6011012345678901234")).to.equal('Discover');
+  });
 });
 
 describe('Maestro', function () {

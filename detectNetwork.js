@@ -22,12 +22,16 @@ var detectNetwork = function (cardNumber) {
     case 19:
       if (prefix.charAt(0) === "4") {
         return "Visa";
+      } else if (cardNumber.slice(0, 4) === "6011") {
+        return "Discover";
       }
       break;
 
     case 16:
       if (prefix.charAt(0) === "4") {
         return "Visa";
+      } else if (cardNumber.slice(0, 4) === "6011") {
+        return "Discover";
       } else {
         const prefixNum = new Number(prefix);
         if ((prefixNum < 56) && (prefixNum > 50)) {
