@@ -77,8 +77,6 @@ describe('Maestro', function () {
 });
 
 describe('China UnionPay', function () {
-  // China UnionPay always has a prefix of 622126-622925, 624-626, 
-  // or 6282-6288 and a length of 16-19.
   const prefixes = ["622126-622925", "624-626", "6282-6288"];
   const lengths = [16, 17, 18, 19];
 
@@ -86,8 +84,6 @@ describe('China UnionPay', function () {
 });
 
 describe('Switch', function () {
-  // Switch always has a prefix of 4903, 4905, 4911, 4936, 
-  // 564182, 633110, 6333, or 6759 and a length of 16, 18, or 19
   const prefixes = ["4903", "4905", "4911", "4936", "564182", "633110", "6333", "6759"];
   const lengths = [16, 18, 19];
 

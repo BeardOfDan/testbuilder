@@ -39,11 +39,19 @@ var detectNetwork = function (cardNumber) {
         "51", "52", "53", "54", "55"
       ],
       "lengths": [16]
+    }, {
+      "name": "China UnionPay",
+      "prefixes": ["622126-622925", "624-626", "6282-6288"],
+      "lengths": [16, 17, 18, 19]
+    }, {
+      "name": "Switch",
+      "prefixes": ["4903", "4905", "4911", "4936", "564182", "633110", "6333", "6759"],
+      "lengths": [16, 18, 19]
     }
   ];
 
   // gets set to the value of the card's name below
-  let result = "Card not found! " + cardNumber;
+  let result;
   // go through each card
   cards.forEach(function (card) {
     // for each length
@@ -56,6 +64,9 @@ var detectNetwork = function (cardNumber) {
           let thisPrefix = prefix[i];
 
           if (cardNumber.slice(0, thisPrefix.length) === thisPrefix) {
+            // test here if result already has a value
+            // if so, test if the prefix for it is shorter than this one
+            // if so, then replace it with this card
             result = card.name;
           }
         }
@@ -63,6 +74,6 @@ var detectNetwork = function (cardNumber) {
     });
   });
 
-  return result;
+  return result ? result : "Card not found! " + cardNumber;
 }; // end of detectNetwork(cardNumber)
 
