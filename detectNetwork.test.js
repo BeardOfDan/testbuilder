@@ -93,28 +93,19 @@ describe('MasterCard', function () {
 
 });
 
-describe('Discover', function () {
+// The above tests are still hardcoded
+// The below tests are automated with the performTests function
+
+// This function will automatically test all of the different possible combinations
+const performTests = function (prefixes, lengths, expected) {
   const { expect } = chai;
 
-  // // Tests without a function will be marked as "pending" and not run
-  // // Implement these tests (and others) and make them pass!
-  // it('has a prefix of 6011 and a length of 16', function () {
-  //   expect(detectNetwork('6011012345678901')).to.equal('Discover');
-  // });
-
-  // it('has a prefix of 6011 and a length of 19', function () {
-  //   expect(detectNetwork("6011012345678901234")).to.equal('Discover');
-  // });
-
-  let prefixes = ["6011", "644", "645", "646", "647", "648", "649", "65"];
-  let lengths = [16, 19];
-
-  // Since there are 3 different prefix lengths and 2 different cardNumber lengths,
-  // I am making a dynamic approach to getting filler data for the rest of the cardNumber
+  // Note, the double tilda (~~) operator is an efficient alternative to Math.floor()
   const getRandomDigit = function () {
     return ~~(Math.random() * 10);
   };
 
+  // This provides 'junk' digits in order to have the cards be the correct length.
   const getSuffix = function (prefix, length) {
     let suffix = "";
     for (let i = prefix.length; i < length; i++) {
@@ -133,16 +124,25 @@ describe('Discover', function () {
 
         it(`has a prefix of ${thisPrefix} and a length of ${thisLength}`, function () {
           let thisCardNumber = thisPrefix + getSuffix(thisPrefix, thisLength);
-          expect(detectNetwork(thisCardNumber)).to.equal('Discover');
+          expect(detectNetwork(thisCardNumber)).to.equal(expected);
         });
       })();
     }
   }
+};
 
-}); // end of describe('Discover'
+describe('Discover', function () {
+  const prefixes = ["6011", "644", "645", "646", "647", "648", "649", "65"];
+  const lengths = [16, 19];
+
+  performTests(prefixes, lengths, "Discover");
+});
 
 describe('Maestro', function () {
-  // Write full test coverage for the Maestro card
+  const prefixes = ["5018", "5020", "5038", "6304"];
+  const lengths = [12, 13, 14, 15, 16, 17, 18, 19];
+
+  performTests(prefixes, lengths, "Maestro");
 });
 
 describe('should support China UnionPay')
