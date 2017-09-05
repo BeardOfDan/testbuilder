@@ -1,5 +1,6 @@
 // This function will automatically test all of the different possible combinations
-const performTests = function (prefixes, lengths, expected) {
+// Note: 'ranges' is an optional parameter
+const performTests = function (prefixes, lengths, expected, ranges) {
   const { expect } = chai;
 
   // Note, the double tilda (~~) operator is an efficient alternative to Math.floor()
@@ -15,6 +16,16 @@ const performTests = function (prefixes, lengths, expected) {
     }
     return suffix;
   };
+
+  // account for ranges if they are present
+  if (ranges) {
+    for (let i = 0; i < ranges.length; i++) {
+      let range = ranges[i];
+      for (let j = range.start; j < range.end + 1; j++) {
+        prefixes.push(new String(j));
+      }
+    }
+  }
 
   // testing for each of the possible prefix and length combinations
   for (let i = 0; i < prefixes.length; i++) {
@@ -77,10 +88,14 @@ describe('Maestro', function () {
 });
 
 describe('China UnionPay', function () {
-  const prefixes = ["622126-622925", "624-626", "6282-6288"];
+  const ranges = [
+    { "start": 622126, "end": 622925 },
+    { "start": 624, "end": 626 },
+    { "start": 6282, "end": 6288 }
+  ];
   const lengths = [16, 17, 18, 19];
 
-  performTests(prefixes, lengths, "China UnionPay");
+  performTests([], lengths, "China UnionPay", ranges);
 });
 
 describe('Switch', function () {
