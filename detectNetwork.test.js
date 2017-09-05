@@ -1,9 +1,11 @@
+"use strict";
+
 // This function will automatically test all of the different possible combinations
 // Note: 'ranges' is an optional parameter
 const performTests = function (prefixes, lengths, expected, ranges) {
   const { expect } = chai;
 
-  // Note, the double tilda (~~) operator is an efficient alternative to Math.floor()
+  // Note: the double tilda (~~) operator is an efficient alternative to Math.floor()
   const getRandomDigit = function () {
     return ~~(Math.random() * 10);
   };
@@ -21,7 +23,8 @@ const performTests = function (prefixes, lengths, expected, ranges) {
   if (ranges) {
     for (let i = 0; i < ranges.length; i++) {
       let range = ranges[i];
-      for (let j = range.start; j < range.end + 1; j++) {
+      let end = range.end + 1; // because it is inclusive
+      for (let j = range.start; j < end; j++) {
         prefixes.push(new String(j));
       }
     }
@@ -30,7 +33,7 @@ const performTests = function (prefixes, lengths, expected, ranges) {
   // testing for each of the possible prefix and length combinations
   for (let i = 0; i < prefixes.length; i++) {
     for (let j = 0; j < lengths.length; j++) {
-      // the testing framework works asyncronously, therefore, and IIFE is required
+      // the testing framework works asyncronously, therefore an IIFE is required
       (function () {
         let thisPrefix = prefixes[i];
         let thisLength = lengths[j];
@@ -43,7 +46,6 @@ const performTests = function (prefixes, lengths, expected, ranges) {
     }
   }
 }; // end of performTests(prefixes, lengths, expected)
-
 
 describe('Diner\'s Club', function () {
   const prefixes = ["38", "39"];
@@ -67,17 +69,19 @@ describe('Visa', function () {
 });
 
 describe('MasterCard', function () {
-  const prefixes = ["51", "52", "53", "54", "55"];
+  const prefixes = [];
   const lengths = [16];
+  const ranges = [{ "start": 51, "end": 55 }];
 
   performTests(prefixes, lengths, "MasterCard");
 });
 
 describe('Discover', function () {
-  const prefixes = ["6011", "644", "645", "646", "647", "648", "649", "65"];
+  const prefixes = ["6011", "65"];
   const lengths = [16, 19];
+  const ranges = [{ "start": 644, "end": 649 }];
 
-  performTests(prefixes, lengths, "Discover");
+  performTests(prefixes, lengths, "Discover", ranges);
 });
 
 describe('Maestro', function () {

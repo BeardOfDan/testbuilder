@@ -67,8 +67,8 @@ var detectNetwork = function (cardNumber) {
 
   // filter by length
   let matchingCards = cards.filter(function (card) {
-    return card.lengths.some(function (len) {
-      return len === cardNumber.length;
+    return card.lengths.some(function (length) {
+      return length === cardNumber.length;
     });
   });
 
@@ -83,7 +83,7 @@ var detectNetwork = function (cardNumber) {
         let prefix = cardNumber.slice(0, range.start.length);
         let start = parseInt(range.start);
         let end = parseInt(range.end);
-        if ((start <= prefix) && (end >= prefix)) {
+        if ((start <= prefix) && (prefix <= end)) {
           return card.name;
         }
       }
@@ -103,5 +103,5 @@ var detectNetwork = function (cardNumber) {
     }
   }
 
-  return result ? result : "Card Network not found! " + cardNumber;
+  return result ? result : "No network found for card number: " + cardNumber;
 }; // end of detectNetwork(cardNumber)
